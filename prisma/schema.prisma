@@ -8,9 +8,55 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  username String @unique
-  email    String @unique
+  id       Int       @id @default(autoincrement())
+  username String    @unique
+  email    String    @unique
   password String
-  bio String
+  bio      String
+  posts    Post[]
+  comments Comment[]
+  likes    Like[]
+  follower Follow[]  @relation("Following")
+  followed Follow[]  @relation("Followed")
+}
+
+model Post {
+  id           Int       @id @default(autoincrement())
+  img_path     String    @unique
+  caption      String
+  published_at DateTime  @default(now())
+  user         User      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user_id      Int
+  comments     Comment[]
+  likes        Like[]
+}
+
+model Comment {
+  id           Int      @id @default(autoincrement())
+  content      String
+  published_at DateTime @default(now())
+  user         User     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user_id      Int
+  post         Post     @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  post_id      Int
+}
+
+model Like {
+  id      Int  @id @default(autoincrement())
+  user    User @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user_id Int
+  post    Post @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  post_id Int
+
+  @@unique([user_id, post_id])
+}
+
+model Follow {
+  id          Int  @id @default(autoincrement())
+  followed    User @relation("Followed", fields: [followed_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  follower    User @relation("Following", fields: [follower_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  followed_id Int
+  follower_id Int
+
+  @@unique([follower_id, followed_id])
 }

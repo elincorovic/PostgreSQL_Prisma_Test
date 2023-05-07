@@ -2,7 +2,6 @@ const express = require("express");
 const userRoutes = require("./src/routes/users.routes");
 const postRoutes = require("./src/routes/posts.routes");
 const commentRoutes = require("./src/routes/comments.routes")
-const likeRoutes = require("./src/routes/likes.routes")
 
 const app = express();
 
@@ -11,7 +10,6 @@ app.use(express.json());
 app.use("/users", userRoutes);
 app.use("/posts", postRoutes);
 app.use("/comments", commentRoutes);
-app.use("/likes", likeRoutes);
 
 app.get("/", (req, res) => {
     res.send("Hello World!");

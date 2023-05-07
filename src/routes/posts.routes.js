@@ -13,4 +13,6 @@ router.get("/:id/likes", postControllers.getLikesByPostId)
 
 router.post("/:id/like", postControllers.likePost)
 
+router.post("/:id/unlike", postControllers.unlikePost)
+
 module.exports = router
