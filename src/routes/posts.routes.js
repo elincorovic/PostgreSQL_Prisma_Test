@@ -15,4 +15,8 @@ router.post("/:id/like", postControllers.likePost)
 
 router.post("/:id/unlike", postControllers.unlikePost)
 
+router.get("/:id/comments", postControllers.getCommentsByPostId)
+
+router.post("/:id/comment", postControllers.createComment)
+
 module.exports = router
